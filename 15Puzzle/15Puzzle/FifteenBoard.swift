@@ -22,11 +22,21 @@ class FifteenBoard {
     }
     
     func getTile(atRow r : Int, atColumn c : Int) -> Int {
-        return 1;
+        
+        return ;
     }
     
     func getRowAndColumn(forTile tile : Int) -> (row : Int, column : Int)? {
      
+        var i, j : Int
+        
+        for i in 0..< 4 {
+            for j in 0..< 4 {
+                if
+            }
+        }
+        
+        
         return (1,1)
         
     }
@@ -36,6 +46,9 @@ class FifteenBoard {
     }
     
     func canSlideTileUp(atRow r : Int, Column c : Int) -> Bool {
+        
+        
+        
         return false
     }
     

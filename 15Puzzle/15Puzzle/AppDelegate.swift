@@ -12,7 +12,6 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
     var board : FifteenBoard?
     let numShuffles = 100 // used to scrable board
 
