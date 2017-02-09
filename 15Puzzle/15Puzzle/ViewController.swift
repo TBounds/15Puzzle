@@ -30,21 +30,53 @@ class ViewController: UIViewController {
         
         let appDelegate = UIApplication.shared.delegate! as! AppDelegate
         let board = appDelegate.board   // get model from app delegate
+    
         
-        let tag = sender.tag
+        let position = board!.getRowAndColumn(forTile: sender.tag)
+        let buttonBounds = sender.bounds
+        var buttonCenter = sender.center
+        var slide = true
         
-        let position = board!.getRowAndColumn(forTile: tag)
-        
-        // NSLog("tileSelected: \(tag)")
         let canSlide = board!.canSlideTile(atRow: (position.row), Column: (position.column))
         
-        NSLog("\(canSlide)")
+        switch canSlide {
+        case .up:
+            buttonCenter.y -= buttonBounds.size.height
+            break
+        case .down:
+            buttonCenter.y += buttonBounds.size.height
+            break
+        case .left:
+            buttonCenter.x -= buttonBounds.size.width
+            break
+        case .right:
+            buttonCenter.x += buttonBounds.size.width
+            break
+        default:
+            slide = false;
+        }
+        
+        if slide {
+            board!.slideTile(atRow: position.row, Column: position.column, dir: canSlide)
+            
+            UIView.animate(withDuration: 0.5, animations: {sender.center = buttonCenter})
+            if(board!.isSolved()){
+                NSLog("Solved")
+            }
+        }
+        
 
     }
     
     @IBAction func shuffleTiles(_ sender: AnyObject) {
         
-        NSLog("Shuffle")
+        let appDelegate = UIApplication.shared.delegate! as! AppDelegate
+        let board = appDelegate.board   // get model from app delegate
+        
+        
+        board!.scramble(numTimes: 10)
+        
+        self.boardView.setNeedsLayout()
         
     }
 }

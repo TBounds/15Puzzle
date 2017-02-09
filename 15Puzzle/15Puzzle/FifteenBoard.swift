@@ -16,11 +16,62 @@ class FifteenBoard {
     var  state : [[Int]] = [
         [1, 2, 3, 4],
         [5, 6, 7, 8],
-        [9, 11, 10, 12],
+        [9, 10, 11, 12],
         [13, 14, 15, 0] // 0 is the empty slot.
     ]
     
+    
     func scramble(numTimes n : Int){
+        
+        for _ in 0 ..< n {
+            let zeroPos = getRowAndColumn(forTile: 0)
+            
+            let slideDir = findSlideDirectionsForZero(atRow: zeroPos.row, atColumn: zeroPos.column)
+            
+            let randomIndex = Int(arc4random_uniform(UInt32(slideDir.count)))
+            
+            // Randomly choose a direction for the 0 to slide.
+            switch slideDir[randomIndex] {
+            case .up:
+                slideTile(atRow: (zeroPos.row - 1), Column: zeroPos.column, dir: .down)
+                break
+            case .down:
+                slideTile(atRow: (zeroPos.row + 1), Column: zeroPos.column, dir: .up)
+                break
+            case .left:
+                slideTile(atRow: zeroPos.row, Column: (zeroPos.column - 1), dir: .right)
+                break
+            case .right:
+                slideTile(atRow: zeroPos.row, Column: (zeroPos.column + 1), dir: .left)
+                break
+            default:
+                break;
+                
+                
+            }
+        }
+        
+    }
+    
+    // Find which directions the zero tile can slide.
+    func findSlideDirectionsForZero(atRow r : Int, atColumn c : Int) -> [canSlide]{
+    
+        var slideDir: [canSlide] = []
+        
+        if r > 0 {
+            slideDir += [.up]
+        }
+        if r < 3 {
+            slideDir += [.down]
+        }
+        if c > 0 {
+            slideDir += [.left]
+        }
+        if c < 3 {
+            slideDir += [.right]
+        }
+        
+        return slideDir
         
     }
     
@@ -49,7 +100,7 @@ class FifteenBoard {
     func isSolved() -> Bool {
         
         for r in 0..<4 {
-            for c in 1..<4 {
+            for c in 0..<4 {
                 if (r*4 + c + 1) != state[r][c] && (r <= 3 && c < 3){
                     return false
                 }
@@ -148,6 +199,31 @@ class FifteenBoard {
         return canSlide.cant
     }
     
+    // Modify state
+    func slideTile(atRow r : Int, Column c : Int, dir: canSlide){
+        
+        switch dir {
+        case .up:
+            state[r-1][c] = state[r][c]
+            state[r][c] = 0;
+            break
+        case .down:
+            state[r+1][c] = state[r][c]
+            state[r][c] = 0;
+            break
+        case .left:
+            state[r][c-1] = state[r][c]
+            state[r][c] = 0;
+            break
+        case .right:
+            state[r][c+1] = state[r][c]
+            state[r][c] = 0;
+            break
+        default:
+            break
+        }
+        
+    }
     
 }
 
