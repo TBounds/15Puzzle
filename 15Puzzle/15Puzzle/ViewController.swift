@@ -9,6 +9,9 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +28,18 @@ class ViewController: UIViewController {
     
     @IBAction func tileSelected(_ sender: UIButton) {
         
-        let tag = sender.tag
-        NSLog("tileSelected: \(tag)")
+        let appDelegate = UIApplication.shared.delegate! as! AppDelegate
+        let board = appDelegate.board   // get model from app delegate
         
+        let tag = sender.tag
+        
+        let position = board!.getRowAndColumn(forTile: tag)
+        
+        // NSLog("tileSelected: \(tag)")
+        let canSlide = board!.canSlideTile(atRow: (position.row), Column: (position.column))
+        
+        NSLog("\(canSlide)")
+
     }
     
     @IBAction func shuffleTiles(_ sender: AnyObject) {
