@@ -74,7 +74,7 @@ class ViewController: UIViewController {
         let board = appDelegate.board   // get model from app delegate
         
         
-        board!.scramble(numTimes: 10)
+        board!.scramble(numTimes: 150)
         
         self.boardView.setNeedsLayout()
         
