@@ -2,7 +2,7 @@
   
 *Email*:  tyler.bounds@wsu.edu
   
-*SID*:	12258134
+*SID*:	11258134
 
 **15 Puzzle**
   
